@@ -1,7 +1,8 @@
 //scrape website
     // HTML for Display devoured burgers
-    function buildScrapedTable(data) {
-
+function scrapeResults(){
+    function buildScrapedCards(data) {
+        var html = `<div class="allCards">`;
         data.forEach(function(data) {
             html += `
             <div class="card">
@@ -16,6 +17,7 @@
             `;
         });
 
+        html += `</div>`
         return html;
     }
 
@@ -25,10 +27,17 @@
         dataType: 'json',
         success: function(data){
             console.log(data);
-            // $("#t01").remove();
-            // $("#devBurgers").after(buildDevBurgerTable(data));
+            $("div.allCards").remove();
+            $("div.container-fluid").append(buildScrapedCards(data));
         },
         error: function(e){
             console.error(e)
         }
-    });
+    });    
+}
+
+
+//Function that Devours the Burgers and Puts them into the Devoured List
+$(document).on('click', '#btnScrape', function(){
+    scrapeResults();
+});

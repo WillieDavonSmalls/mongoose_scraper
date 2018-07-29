@@ -36,7 +36,7 @@ var scrapedResults = []
 
 // Routes
 // Scrape NYTimes
-app.get("/scrape", function(request, result) {
+app.get("/api/scrape", function(request, result) {
       // First, we grab the body of the html with request
   axios.get("https://www.nytimes.com/")
   .then(function(response){
@@ -58,6 +58,7 @@ app.get("/scrape", function(request, result) {
 
     });
   // If we were able to successfully scrape and save an Article, send a message to the client
+  scrapedResults = scrapedResults.slice(0,20)
   result.send(scrapedResults);  
   })
   .catch(function (error) {
