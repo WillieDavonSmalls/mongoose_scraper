@@ -5,7 +5,7 @@ html {
   
   body {
     margin-bottom: 80px;
-    background-image: url("assets/imgs/paper.png");
+    /* background-image: url("assets/images/paper.png"); */
   }
   
   .card a:not([href]):not([tabindex]).scrape-new {
@@ -45,11 +45,11 @@ html {
     opacity: 0.7;
   }
   
-  .jumbotron .background-image {
+  /* .jumbotron .background-image {
     height: 100%;
-    background-image: url("assets/imgs/newspaper.jpg");
+    background-image: url("assets/images/newspaper.jpg");
     background-size: cover;
-  }
+  } */
   
   .jumbotron .caption {
     position: absolute;
