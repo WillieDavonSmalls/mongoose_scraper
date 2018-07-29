@@ -36,8 +36,13 @@ function scrapeResults(){
     });    
 }
 
-
-//Function that Devours the Burgers and Puts them into the Devoured List
+//On Click Button Function that scrapes 20 articles from NY Times
 $(document).on('click', '#btnScrape', function(){
     scrapeResults();
 });
+
+//On Click Button Function that scrapes 20 articles from NY Times
+$(document).on('click', '#btnClear', function(){
+    $("div.allCards").remove();
+});
+

@@ -73,25 +73,3 @@ app.listen(PORT, function() {
   console.log("App running on port " + PORT + "!");
 });
 
-
-      // if(title !== null && title !== '' && summary !== null && summary !== '' && link !== null && link !== ''){
-      //   //scrapedResults.push({'title':title, 'summary':summary, 'link':link}); //hold off on using 
-      //   for(var j = 0; j < 20; j++){
-          
-      //     html += `
-      //     <div class="card">
-      //         <div class="card-header">
-      //             <h3>
-      //                 <a class="article-link" target="_blank" rel="noopener noreferrer" href="${link}">${title}</a>
-      //                 <a class="btn btn-success save">Save Article</a>
-      //             </h3>
-      //         </div>
-      //         <div class="card-body">${summary}</div>
-      //     </div>
-      //     `;
-      //   }
-
-      //   return html;
-      //   $(".container-fluid article-container").append(html);
-      
-      // }
