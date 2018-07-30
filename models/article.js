@@ -17,16 +17,17 @@ var articleSchema = new Schema({
     required: true
   },
     // `summary` is required and of type String
-    summary: {
-        type: String,
-        required: true
-      },
+  summary: {
+      type: String,
+      required: true
+    },
   // `note` is an object that stores a Note id
   // The ref property links the ObjectId to the Note model
   // This allows us to populate the Article with an associated Note
   note: {
-    type: Schema.Types.ObjectId,
-    ref: "Note"
+    type: Array,
+    required: true,
+    default: {'date':0, 'Note': ""}
   }
 });
 
@@ -34,4 +35,6 @@ var articleSchema = new Schema({
 var article = mongoose.model("article", articleSchema);
 
 // Export the Article model
-module.exports = article;
+module.exports = {
+  article
+};

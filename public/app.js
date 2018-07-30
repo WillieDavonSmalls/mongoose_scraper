@@ -12,7 +12,7 @@ function scrapeResults(){
                         <a class="btn btn-success save" id="saveArticle">Save Article</a>
                     </h3>
                 </div>
-                <div class="card-body">${data.summary}</div>
+                <div class="card-body" id="articleSummary">${data.summary}</div>
             </div>
             `;
         });
@@ -46,3 +46,38 @@ $(document).on('click', '#btnClear', function(){
     $("div.allCards").remove();
 });
 
+
+$(document).on('click', '#saveArticle', function(){
+    var inputArticle; 
+
+    var link = $('a.article-link').attr('href').trim();
+    var title = $(this).closest("h3").text().replace('Save Article','').trim();
+    var summary = $("div#articleSummary").text().trim();
+
+    //$(this).closest("div.card").remove(); //works
+    
+    inputArticle = {
+        article_link: link,
+        article_title: title,
+        article_summary: summary,
+        article_notes: {date:'', comment: ''}
+    };
+
+    console.log('here', JSON.stringify(inputArticle));
+
+    jQuery.ajax({
+        type: 'POST',
+        url: '/api/save_article',
+        data: JSON.stringify(inputArticle),
+        dataType: "JSON",
+        contentType: "application/json; charset=utf-8",
+        success: function() {
+            console.log('sending post request', inputArticle);
+            $(this).closest("div.card").remove(); //works
+        },
+        error: function(e) {
+            console.error(e);
+        }
+    });
+
+});

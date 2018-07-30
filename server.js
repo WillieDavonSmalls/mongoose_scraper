@@ -20,7 +20,7 @@ mongoose.connect(connection.database)
 
 
 // Require all models
-var db = require("./models");
+var db = require("./models/article");
 
 var PORT = process.env.PORT || 3001;
 
@@ -71,6 +71,26 @@ app.get("/api/scrape", function(request, result) {
     console.log(error);
   });
 });
+
+
+app.post('/api/save_article', function (request, result) {
+
+  console.log('hello', request);
+  
+  // db.article.create(request.body.inputArticle)
+  // .then(function(dbArticle) {
+  //   // If saved successfully, print the new Example document to the console
+  //   console.log(dbArticle);
+  // })
+  // .catch(function(err) {
+  //   // If an error occurs, log the error message
+  //   console.log(err.message);
+  // });
+
+  // result.send(request.body);
+
+});
+
 
 
 
