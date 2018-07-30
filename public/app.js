@@ -9,7 +9,7 @@ function scrapeResults(){
                 <div class="card-header">
                     <h3>
                         <a class="article-link" target="_blank" rel="noopener noreferrer" href="${data.link}">${data.title}</a>
-                        <a class="btn btn-success save">Save Article</a>
+                        <a class="btn btn-success save" id="saveArticle">Save Article</a>
                     </h3>
                 </div>
                 <div class="card-body">${data.summary}</div>

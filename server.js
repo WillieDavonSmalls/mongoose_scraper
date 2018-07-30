@@ -10,6 +10,11 @@ var request = require("request");
 var axios = require("axios");
 var cheerio = require("cheerio");
 
+//mongoose connection
+var connection = require("./config/connection.js")
+mongoose.connect(connection.database);
+// mongoose.connect("mongodb://localhost:27017/nytimes", { useNewUrlParser: true });
+
 // Require all models
 var db = require("./models");
 
@@ -26,9 +31,6 @@ app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));
 // Use express.static to serve the public folder as a static directory
 app.use(express.static("public"));
-
-// Connect to the Mongo DB
-mongoose.connect("mongodb://localhost:27017/nytimes", { useNewUrlParser: true });
 
 
 // Routes
