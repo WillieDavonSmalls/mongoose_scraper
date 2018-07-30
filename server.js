@@ -12,8 +12,12 @@ var cheerio = require("cheerio");
 
 //mongoose connection
 var connection = require("./config/connection.js")
-mongoose.connect(connection.database);
-// mongoose.connect("mongodb://localhost:27017/nytimes", { useNewUrlParser: true });
+mongoose.connect(connection.database)
+.then( result => {
+  console.log(`Connected to database '${result.connections[0].name}' on ${result.connections[0].host}:${result.connections[0].port}`);
+})
+.catch(err => console.log('There was an error with your connection:', err));;
+
 
 // Require all models
 var db = require("./models");
