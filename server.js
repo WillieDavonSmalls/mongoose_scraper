@@ -2,7 +2,6 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-var request = require("request");
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -22,10 +21,10 @@ mongoose.connect(connection.database)
 // Require all models
 var db = require("./models/article");
 
-var PORT = process.env.PORT || 3001;
 
 // Initialize Express
 var app = express();
+var PORT = process.env.PORT || 3001;
 
 // Configure middleware
 
@@ -38,7 +37,7 @@ app.use(express.static("public"));
 
 
 // Routes
-var scrapedResults = []
+
 
 // Routes
 // Scrape NYTimes
@@ -46,9 +45,10 @@ app.get("/api/scrape", function(request, result) {
       // First, we grab the body of the html with request
   axios.get("https://www.nytimes.com/")
   .then(function(response){
-    // Then, we load that into cheerio and save it to $ for a shorthand selector
-    var $ = cheerio.load(response.data);
-    var html; 
+  // Then, we load that into cheerio and save it to $ for a shorthand selector
+  var scrapedResults = []
+  var $ = cheerio.load(response.data);
+  var html; 
 
     $("article.story").each(function(i, element) {
     
@@ -73,7 +73,7 @@ app.get("/api/scrape", function(request, result) {
 });
 
 
-app.post('/api/save_article', function (request, result) {
+app.post("/api/save", function (request, result) {
 
   console.log('hello', request);
   
@@ -91,8 +91,9 @@ app.post('/api/save_article', function (request, result) {
 
 });
 
-
-
+app.get('/api/hello', function (req, res) {
+  res.send('POST request to the homepage')
+});
 
 // Start the server
 app.listen(PORT, function() {

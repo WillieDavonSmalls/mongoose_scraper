@@ -53,23 +53,21 @@ $(document).on('click', '#saveArticle', function(){
     var link = $('a.article-link').attr('href').trim();
     var title = $(this).closest("h3").text().replace('Save Article','').trim();
     var summary = $("div#articleSummary").text().trim();
-
-    //$(this).closest("div.card").remove(); //works
     
     inputArticle = {
         article_link: link,
         article_title: title,
         article_summary: summary,
-        article_notes: {date:'', comment: ''}
+        article_notes: {date:"", comment: ""}
     };
 
     console.log('here', JSON.stringify(inputArticle));
 
     jQuery.ajax({
         type: 'POST',
-        url: '/api/save_article',
+        url: '/api/savearticle',
         data: JSON.stringify(inputArticle),
-        dataType: "JSON",
+        dataType: 'json',
         contentType: "application/json; charset=utf-8",
         success: function() {
             console.log('sending post request', inputArticle);
