@@ -65,7 +65,7 @@ $(document).on('click', '#saveArticle', function(){
 
     jQuery.ajax({
         type: 'POST',
-        url: '/api/savearticle',
+        url: '/api/save',
         data: JSON.stringify(inputArticle),
         dataType: 'json',
         contentType: "application/json; charset=utf-8",
@@ -79,3 +79,41 @@ $(document).on('click', '#saveArticle', function(){
     });
 
 });
+
+function buildSavedArticleCards(){
+    function buildSavedCards(data) {
+        var html = `<div class="allSavedCards">`;
+
+        data.forEach(function(data) {
+            html += `
+        <div data-mongoid="${data._id}" class="card">
+            <div class="card-header">
+                <h3>
+                <a class="article-link" target="_blank" rel="noopener noreferrer" href="${data.link}">${data.title}</a>
+                <a class="btn btn-danger delete">Delete From Saved</a>
+                <a class="btn btn-info notes">Article Notes</a>
+                </h3>
+            </div>
+            <div class="card-body">${data.summary}</div>
+            </div>
+            `;
+        });
+
+        html += `</div>`
+        return html;
+        }
+
+        jQuery.ajax({
+            method: 'GET',
+            url: '/api/articles',
+            dataType: 'json',
+            success: function(data){
+                console.log(data);
+                $("div.allSavedCards").remove();
+                $("div.saved-cards").append(buildSavedArticleCards(data));
+            },
+            error: function(e){
+                console.error(e)
+            }
+        });
+};

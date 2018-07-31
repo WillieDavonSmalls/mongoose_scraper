@@ -2,6 +2,8 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var path = require("path");
+
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -35,6 +37,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Use express.static to serve the public folder as a static directory
 app.use(express.static("public"));
 
+//Rout for Saved Page
+app.get("/saved", function(req, res) {
+  res.sendFile(path.join(__dirname, "./public/saved.html"));
+});
 
 // Routes
 
@@ -75,7 +81,7 @@ app.get("/api/scrape", function(request, result) {
 
 app.post("/api/save", function (request, result) {
 
-  console.log('hello', request);
+  // console.log('hello', request);
   
   // db.article.create(request.body.inputArticle)
   // .then(function(dbArticle) {
@@ -91,12 +97,33 @@ app.post("/api/save", function (request, result) {
 
 });
 
-app.get('/api/hello', function (req, res) {
-  res.send('POST request to the homepage')
+// app.get("/api/extractsaved", function(request, result) {
+//   result.send('saved articles');
+//   db.article.find({}, function (error, document) {
+//     // docs.forEach
+//     console.log(document);
+//   });
+// });
+
+app.get("/api/articles", function(req, res) {
+  // Grab every document in the Articles collection
+  db.article.find({})
+    .then(function(dbArticle) {
+      // If we were able to successfully find Articles, send them back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(error) {
+      // If an error occurred, send it to the client
+      res.json(error);
+    });
 });
 
+
+
+
 // Start the server
-app.listen(PORT, function() {
+app.listen(PORT, function(error) {
+  if (error) {throw error}
   console.log("App running on port " + PORT + "!");
 });
 
