@@ -94,7 +94,7 @@ app.post("/api/save", function (request, result) {
   db.article.create(request.body)
   .then(function(dbArticle) {
     // If saved successfully, print the new Example document to the console
-    console.log(dbArticle);
+    // console.log(dbArticle);
   })
   .catch(function(error) {
     // If an error occurs, log the error message
