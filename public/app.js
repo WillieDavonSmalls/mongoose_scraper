@@ -1,4 +1,4 @@
- // ********************** Build HTML for Scrape NY Times ********************** \\
+ // *************************************************** Build HTML for Scrape NY Times ****************************************** \\
 function scrapeResults(){
     function buildScrapedCards(data) {
         var html = `<div class="allCards">`;
@@ -34,9 +34,9 @@ function scrapeResults(){
         }
     });    
 }
-// ********************** End Build HTML for Scrape NY Times ********************** \\
+// ************************************************ End Build HTML for Scrape NY Times ******************************************* \\
 
-// ********************** Build Saved Articles HTML for Scrape NY Times ********************** \\
+// ***************************************** Build Saved Articles HTML for Scrape NY Times **************************************** \\
 function buildSavedArticleCards(){
     function buildSavedCards(data) {
         var html = `<div class="allCards">`;
@@ -74,7 +74,7 @@ function buildSavedArticleCards(){
             }
         });
 };
- // ********************** End Build Saved Articles HTML for Scrape NY Times ********************** \\
+ // ************************************************* End Build Saved Articles HTML for Scrape NY Times *************************************** \\
 
 
  // ************************************************* Build Notes Modal for Article ************************************************************ \\
@@ -104,7 +104,7 @@ function buildNotesModal(data,mongo_id){
     
                             html += 
                             `</ul>
-                            <textarea placeholder="New Note" rows="4" cols="60"></textarea>
+                            <textarea placeholder="New Note" id="textareaNotes" rows="4" cols="60"></textarea>
                             <button class="btn btn-success save">Save Note</button>
                         </div>
                     </div>
@@ -117,7 +117,7 @@ function buildNotesModal(data,mongo_id){
 // ******************************************************************************************************************************************** \\
 
 
- // *********************************** POST save articles to MongoDB ********************************* \\ 
+ // ****************************************************** POST save articles to MongoDB ***************************************************** \\ 
 $(document).on('click', '#saveArticle', function(){
     var inputArticle; 
 
@@ -224,6 +224,15 @@ $(document).on('click', 'button.bootbox-close-button.close', function(){
 // ************************************************************************************************************* \\
 
 
-
-
+// ************************************************* Extract Notes from Modal *********************************** \\
+$(document).on('click', 'button.btn.btn-success.save', function(){
+    var newNote = $('#textareaNotes').val()
+    
+    if (newNote !== null && newNote !== ''){
+        alert(newNote);
+        $('.modal').hide();
+    }
+    
+});
+// ************************************************************************************************************* \\
 

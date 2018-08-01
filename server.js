@@ -155,6 +155,36 @@ app.listen(PORT, function(error) {
 
 
 
+// ********************** Save Articles to Database ********************** \\
+app.post("/api/updatenote", function (request, result) {
+
+  console.log('request');
+  console.log(request);
+
+  console.log('result');
+  console.log(result);
+
+
+  db.article.findOneAndUpdate({_id: '5b61a4aaadc0fb563cdeff68'}, {$set:{note:["Help","Me","Lord"]}}, {new: true}, function(error, document){
+    if(error){
+        console.log("Something wrong when updating data!");
+    }
+    console.log(document);
+  })
+  // .then(function(dbArticle) {
+  //   // If saved successfully, print the new Example document to the console
+  //   console.log(dbArticle);
+  // })
+  // .catch(function(error) {
+  //   // If an error occurs, log the error message
+  //   console.log(error.message);
+  // });
+
+  // result.send(request.body);
+
+});
+// ********************** End Save Articles to Database ********************** \\
+
 // ********************** test data  ********************** \\
 // var test = {
 //   'link': 'test',
@@ -176,9 +206,4 @@ app.listen(PORT, function(error) {
 
 
 
-db.article.findOneAndUpdate({_id: '5b61a4aaadc0fb563cdeff68'}, {$set:{note:["Help","Me","Lord"]}}, {new: true}, function(error, document){
-  if(error){
-      console.log("Something wrong when updating data!");
-  }
-  console.log(document);
-});
+
