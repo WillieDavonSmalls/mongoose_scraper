@@ -26,8 +26,7 @@ var articleSchema = new Schema({
   // This allows us to populate the Article with an associated Note
   note: {
     type: Array,
-    required: true,
-    default: {'date':0, 'Note': ""}
+    required: true
   }
 });
 

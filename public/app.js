@@ -1,5 +1,4 @@
-//scrape website
-    // HTML for Display devoured burgers
+ // ********************** Build HTML for Scrape NY Times ********************** \\
 function scrapeResults(){
     function buildScrapedCards(data) {
         var html = `<div class="allCards">`;
@@ -35,58 +34,16 @@ function scrapeResults(){
         }
     });    
 }
+// ********************** End Build HTML for Scrape NY Times ********************** \\
 
-//On Click Button Function that scrapes 20 articles from NY Times
-$(document).on('click', '#btnScrape', function(){
-    scrapeResults();
-});
-
-//On Click Button Function that scrapes 20 articles from NY Times
-$(document).on('click', '#btnClear', function(){
-    $("div.allCards").remove();
-});
-
-
-$(document).on('click', '#saveArticle', function(){
-    var inputArticle; 
-
-    var link = $('a.article-link').attr('href').trim();
-    var title = $(this).closest("h3").text().replace('Save Article','').trim();
-    var summary = $("div#articleSummary").text().trim();
-    
-    inputArticle = {
-        article_link: link,
-        article_title: title,
-        article_summary: summary,
-        article_notes: {date:"", comment: ""}
-    };
-
-    console.log('here', JSON.stringify(inputArticle));
-
-    jQuery.ajax({
-        type: 'POST',
-        url: '/api/save',
-        data: JSON.stringify(inputArticle),
-        dataType: 'json',
-        contentType: "application/json; charset=utf-8",
-        success: function() {
-            console.log('sending post request', inputArticle);
-            $(this).closest("div.card").remove(); //works
-        },
-        error: function(e) {
-            console.error(e);
-        }
-    });
-
-});
-
+// ********************** Build Saved Articles HTML for Scrape NY Times ********************** \\
 function buildSavedArticleCards(){
     function buildSavedCards(data) {
-        var html = `<div class="allSavedCards">`;
+        var html = `<div class="allCards">`;
 
         data.forEach(function(data) {
             html += `
-        <div data-mongoid="${data._id}" class="card">
+        <div class="card" data-mongoid="${data._id}">
             <div class="card-header">
                 <h3>
                 <a class="article-link" target="_blank" rel="noopener noreferrer" href="${data.link}">${data.title}</a>
@@ -109,11 +66,124 @@ function buildSavedArticleCards(){
             dataType: 'json',
             success: function(data){
                 console.log(data);
-                $("div.allSavedCards").remove();
-                $("div.saved-cards").append(buildSavedArticleCards(data));
+                $("div.allCards").remove();
+                $("div.container-fluid").append(buildSavedCards(data));
             },
             error: function(e){
                 console.error(e)
             }
         });
 };
+ // ********************** End Build Saved Articles HTML for Scrape NY Times ********************** \\
+
+
+// ********************** On Click Button Function that scrapes 20 articles from NY Times uses GET ********************** \\
+$(document).on('click', '#btnScrape', function(){
+    scrapeResults();
+});
+// ************************************************************************************************************* \\
+
+// ********************** On Click Button Function that removes all cards fromt the UI ********************** \\
+$(document).on('click', '#btnClear', function(){
+    $("div.allCards").remove();
+});
+// ************************************************************************************************************* \\
+
+// ********************** On Click Button Function that builds saved articles from uses GET********************** \\
+$(document).on('click', '#btnSavedArticles', function(){
+    buildSavedArticleCards();
+});
+// ************************************************************************************************************* \\
+
+// ********************** On Click Button Function that opens modal for notes *********************************** \\
+$(document).on('click', 'a.btn.btn-info.notes', function(){
+    alert('hello');
+    testHTML();
+});
+// ************************************************************************************************************* \\ 
+
+
+
+//POST save articles to MongoDB
+$(document).on('click', '#saveArticle', function(){
+    var inputArticle; 
+
+    var link = $('a.article-link').attr('href').trim();
+    var title = $(this).closest("h3").text().replace('Save Article','').trim();
+    var summary = $("div#articleSummary").text().trim();
+    
+    inputArticle = {
+        link: link,
+        title: title,
+        summary: summary,
+        note: []
+    };
+
+    // console.log('here', JSON.stringify(inputArticle));
+
+    jQuery.ajax({
+        type: 'POST',
+        url: '/api/save',
+        data: inputArticle,
+        dataType: 'json',
+        success: function() {
+            console.log('sending post request', inputArticle);
+            $(this).closest("div.card").remove(); //works
+        },
+        error: function(e) {
+            console.error(e);
+        }
+    });
+});
+
+function testHTML(){
+    var data = {
+        "note": [
+        "hello",
+        "hello2",
+        "hello3"
+        ],
+        "_id": "5b60d9327ea55041f0fad9a3",
+        "link": "test",
+        "title": "test",
+        "summary": "test",
+        "__v": 0
+        }
+    
+    var html = `
+    <div class="bootbox modal fade show" data-mongoid="${data._id}" tabindex="-1" role="dialog" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" style="margin-top: -10px;">×</button>
+                    <div class="bootbox-body">
+                        <div class="container-fluid text-center">
+    
+                            <h4>Notes For Article: ${data.title}</h4>
+                            <hr>
+                            <ul class="list-group note-container">`;
+    
+                            if(data.note.length > 0){
+                                for(var i = 0; i < data.note.length; i++){
+                                    html += `
+                                    <li class="list-group-item">${data.note[i]}.</li>`
+                                }
+                            } else{
+                                html += `
+                                <li class="list-group-item">No notes for this article yet.</li>`;
+                            }
+    
+                            html += 
+                            `</ul>
+                            <textarea placeholder="New Note" rows="4" cols="60"></textarea>
+                            <button class="btn btn-success save">Save Note</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`
+    return html
+    console.log(html);
+}
+

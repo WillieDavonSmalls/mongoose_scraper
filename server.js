@@ -1,3 +1,4 @@
+//  NPM Packages
 var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
@@ -29,7 +30,6 @@ var app = express();
 var PORT = process.env.PORT || 3001;
 
 // Configure middleware
-
 // Use morgan logger for logging requests
 app.use(logger("dev"));
 // Use body-parser for handling form submissions
@@ -37,16 +37,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Use express.static to serve the public folder as a static directory
 app.use(express.static("public"));
 
-//Rout for Saved Page
-app.get("/saved", function(req, res) {
-  res.sendFile(path.join(__dirname, "./public/saved.html"));
-});
-
-// Routes
 
 
-// Routes
-// Scrape NYTimes
+// ********************** Scrape NY Times ********************** \\
 app.get("/api/scrape", function(request, result) {
       // First, we grab the body of the html with request
   axios.get("https://www.nytimes.com/")
@@ -77,34 +70,9 @@ app.get("/api/scrape", function(request, result) {
     console.log(error);
   });
 });
+// ********************** End Scrape NY Times ********************** \\
 
-
-app.post("/api/save", function (request, result) {
-
-  // console.log('hello', request);
-  
-  // db.article.create(request.body.inputArticle)
-  // .then(function(dbArticle) {
-  //   // If saved successfully, print the new Example document to the console
-  //   console.log(dbArticle);
-  // })
-  // .catch(function(err) {
-  //   // If an error occurs, log the error message
-  //   console.log(err.message);
-  // });
-
-  // result.send(request.body);
-
-});
-
-// app.get("/api/extractsaved", function(request, result) {
-//   result.send('saved articles');
-//   db.article.find({}, function (error, document) {
-//     // docs.forEach
-//     console.log(document);
-//   });
-// });
-
+// ********************** Get Articles Saved in DB********************** \\
 app.get("/api/articles", function(req, res) {
   // Grab every document in the Articles collection
   db.article.find({})
@@ -117,13 +85,66 @@ app.get("/api/articles", function(req, res) {
       res.json(error);
     });
 });
+// ********************** End Articles Saved in DB********************** \\
+
+
+app.post("/api/save", function (request, result) {
+
+  console.log('link');
+  console.log(request.body.link);
+  console.log('title');
+  console.log(request.body.title);
+  console.log('summary');
+  console.log(request.body.summary);
+
+  
+  // db.article.create(request.body.inputArticle)
+  // .then(function(dbArticle) {
+  //   // If saved successfully, print the new Example document to the console
+  //   console.log(dbArticle);
+  // })
+  // .catch(function(err) {
+  //   // If an error occurs, log the error message
+  //   console.log(err.message);
+  // });
+
+  result.send(request.body);
+
+});
+
+// app.get("/api/extractsaved", function(request, result) {
+//   result.send('saved articles');
+//   db.article.find({}, function (error, document) {
+//     // docs.forEach
+//     console.log(document);
+//   });
+// });
 
 
 
 
-// Start the server
+// ********************** Start the Server ********************** \\
 app.listen(PORT, function(error) {
   if (error) {throw error}
   console.log("App running on port " + PORT + "!");
 });
+// ********************** End Start the Server ********************** \\
 
+// ********************** test data  ********************** \\
+// var test = {
+//   'link': 'test',
+//   'title': 'test',
+//   'summary': 'test',
+//   'note': ["hello", "hello2", "hello3"]
+// }
+
+//   db.article.create(test)
+//   .then(function(dbArticle) {
+//     // If saved successfully, print the new Example document to the console
+//     console.log(dbArticle);
+//   })
+//   .catch(function(err) {
+//     // If an error occurs, log the error message
+//     console.log(err.message);
+//   });
+// ********************** End test data  ******************** \\

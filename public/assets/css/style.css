@@ -125,7 +125,7 @@ html {
     font-weight: 800;
     background: #0c7cd5;
   }
-  
+  .navbar-nav > li > a.saved-articles,
   .navbar-nav > li > a.scrape-new,
   .navbar-nav > li > a.clear {
     padding: 10px;
@@ -135,6 +135,7 @@ html {
     color: white;
   }
   
+  .navbar-nav > li > a.saved-articles:hover,
   .navbar-nav > li > a.scrape-new:hover,
   .navbar-nav > li > a.clear:hover {
     background: #4caf50;
