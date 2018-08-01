@@ -159,28 +159,16 @@ app.listen(PORT, function(error) {
 app.post("/api/updatenote", function (request, result) {
 
   console.log('request');
-  console.log(request);
-
-  console.log('result');
-  console.log(result);
+  console.log(request.body);
 
 
-  db.article.findOneAndUpdate({_id: '5b61a4aaadc0fb563cdeff68'}, {$set:{note:["Help","Me","Lord"]}}, {new: true}, function(error, document){
+  db.article.findOneAndUpdate({_id: request.body.mongoid}, {$set:{note: request.body.note}}, {new: true}, function(error, document){
     if(error){
         console.log("Something wrong when updating data!");
     }
-    console.log(document);
+    console.log(document.note, document._id);
   })
-  // .then(function(dbArticle) {
-  //   // If saved successfully, print the new Example document to the console
-  //   console.log(dbArticle);
-  // })
-  // .catch(function(error) {
-  //   // If an error occurs, log the error message
-  //   console.log(error.message);
-  // });
 
-  // result.send(request.body);
 
 });
 // ********************** End Save Articles to Database ********************** \\

@@ -224,15 +224,104 @@ $(document).on('click', 'button.bootbox-close-button.close', function(){
 // ************************************************************************************************************* \\
 
 
-// ************************************************* Extract Notes from Modal *********************************** \\
+// ************************************************* Extract Notes from Modal on Save *********************************** \\
 $(document).on('click', 'button.btn.btn-success.save', function(){
-    var newNote = $('#textareaNotes').val()
+    var newNote = $('#textareaNotes').val();
+    var mongo_id = $('div.bootbox.modal.fade.show').data("mongoid");
     
+    var notes = [];
+    var note;
+
+    var notesObj; 
+    
+    //Check if there is a new note
     if (newNote !== null && newNote !== ''){
-        alert(newNote);
+        // alert(newNote);
+        // alert(mongo_id);
+
+        //Pull all notes from the lists
+        $('ul.list-group.note-container').each(function(){
+            $('li').each(function(){
+                note = $(this).text();
+                note = note.trim(); 
+                if(note.endsWith("x")){
+                    if (note != 'No notes for this article yet.'){
+                        notes.push(note.slice(0,-1));
+                    }
+                }
+            });
+        });
+
+        //push the new note to the list with the other notes
+        notes.push(newNote)
+
+        //build JSON object to post
+        notesObj = {note: notes, mongoid: mongo_id};
+        console.log(notesObj);
+
+        jQuery.ajax({
+            type: 'POST',
+            url: '/api/updatenote',
+            data: notesObj,
+            dataType: 'json',
+            success: function() {
+                console.log('sending post request', notesObj);
+                notes = [];
+            },
+            error: function(e) {
+                console.error(e);
+            }
+        });
+
+        //hide the modal and then close it.
         $('.modal').hide();
+        $('.modal').remove();
     }
     
 });
-// ************************************************************************************************************* \\
 
+// ************************************************************************************************************* \\
+$(document).on('click', 'button.btn.btn-danger.note-delete', function(){
+
+    var mongo_id = $('div.bootbox.modal.fade.show').data("mongoid");
+    $(this).closest('li.list-group-item.note').remove() //li.list-group-item.note
+    
+    var notes = [];
+    var note;
+
+    var notesObj; 
+
+    $('ul.list-group.note-container').each(function(){
+        $('li').each(function(){
+            note = $(this).text();
+            note = note.trim(); 
+            if(note.endsWith("x")){
+                if (note != 'No notes for this article yet.'){
+                    notes.push(note.slice(0,-1));
+                }
+            }
+        });
+    });
+
+    notesObj = {note: notes, mongoid: mongo_id};
+    console.log(notesObj);
+
+    jQuery.ajax({
+        type: 'POST',
+        url: '/api/updatenote',
+        data: notesObj,
+        dataType: 'json',
+        success: function() {
+            console.log('sending post request', notesObj);
+            notes = [];
+        },
+        error: function(e) {
+            console.error(e);
+        }
+    });
+
+    //hide the modal and then close it. 
+    $('.modal').hide();
+    $('.modal').remove();
+
+}); 
