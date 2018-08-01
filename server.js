@@ -106,6 +106,25 @@ app.post("/api/save", function (request, result) {
 });
 // ********************** End Save Articles to Database ********************** \\
 
+// ********************** Save Articles to Database ********************** \\
+app.post("/api/delete", function (request, result) {
+
+  // console.log(request);
+  var documentid = request.body.mongoCollectionId; 
+
+  db.article.remove({_id: documentid})
+  .then(function(dbArticle) {
+    console.log('removed', documentid);
+  })
+  .catch(function(error) {
+    // If an error occurs, log the error message
+    console.log(error.message);
+  });
+
+});
+// ********************** End Save Articles to Database ********************** \\
+
+
 
 // ********************** Start the Server ********************** \\
 app.listen(PORT, function(error) {
@@ -113,6 +132,8 @@ app.listen(PORT, function(error) {
   console.log("App running on port " + PORT + "!");
 });
 // ********************** End Start the Server ********************** \\
+
+
 
 // ********************** test data  ********************** \\
 // var test = {
@@ -132,3 +153,4 @@ app.listen(PORT, function(error) {
 //     console.log(err.message);
 //   });
 // ********************** End test data  ******************** \\
+

@@ -99,14 +99,38 @@ $(document).on('click', '#saveArticle', function(){
         dataType: 'json',
         success: function() {
             console.log('sending post request', inputArticle);
-            $(this).closest("div.card").remove(); 
         },
         error: function(e) {
             console.error(e);
         }
     });
+
+    $(this).closest("div.card").remove(); 
 });
 // *********************************** End POST save articles to MongoDB ********************************* \\ 
+
+
+ // *********************************** POST to delete articles to MongoDB ********************************* \\ 
+ $(document).on('click', 'a.btn.btn-danger.delete', function(){
+    var mongo_id = {mongoCollectionId : $(this).closest("div.card").data("mongoid")}; 
+
+    jQuery.ajax({
+        type: 'POST',
+        url: '/api/delete',
+        data: mongo_id,
+        dataType: 'json',
+        success: function() {
+            console.log('sending post request', mongo_id);
+        },
+        error: function(e) {
+            console.error(e);
+        }
+    });
+    
+    $(this).closest("div.card").remove(); 
+});
+// *********************************** End POST save articles to MongoDB ********************************* \\ 
+
 
 
 // ********************** On Click Button Function that scrapes 20 articles from NY Times uses GET ********************** \\
