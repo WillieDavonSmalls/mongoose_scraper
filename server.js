@@ -125,6 +125,26 @@ app.post("/api/delete", function (request, result) {
 // ********************** End Save Articles to Database ********************** \\
 
 
+// ********************** Get Articles by ID Saved in DB********************** \\
+
+app.get("/api/articles/:id", function(request, result) {
+  
+  // console.log('request');
+  // console.log(request.params.id);
+
+  // // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+  db.article.findOne({ _id: request.params.id})
+  .then(function(dbArticle) {
+    // If we were able to successfully find an Article with the given id, send it back to the client
+    result.json(dbArticle);
+  })
+  .catch(function(error) {
+    // If an error occurred, send it to the client
+    result.json(error);
+  });
+});
+// ********************** End Articles Saved in DB********************** \\
+
 
 // ********************** Start the Server ********************** \\
 app.listen(PORT, function(error) {
@@ -140,7 +160,7 @@ app.listen(PORT, function(error) {
 //   'link': 'test',
 //   'title': 'test',
 //   'summary': 'test',
-//   'note': ["hello", "hello2", "hello3"]
+//   'note': []
 // }
 
 //   db.article.create(test)
@@ -153,4 +173,5 @@ app.listen(PORT, function(error) {
 //     console.log(err.message);
 //   });
 // ********************** End test data  ******************** \\
+
 

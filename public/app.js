@@ -133,6 +133,39 @@ $(document).on('click', '#saveArticle', function(){
 
 
 
+
+// ********************** On Click Button Function that opens modal for notes *********************************** \\
+$(document).on('click', 'a.btn.btn-info.notes', function(){
+    var mongo_id = $(this).closest("div.card").data("mongoid");
+    // var test = $(this).closest("div.card").data("mongoid"); 
+    // alert(test);
+    console.log(mongo_id);
+    jQuery.ajax({
+        type: 'GET',
+        url: '/api/articles/'+ mongo_id,
+        success: function(data) {
+            console.log('sending post request', mongo_id);
+            console.log(data.note); 
+            console.log(data.title);
+            var html = buildNotesModal(data,mongo_id);
+            $("body").append(html);
+        },
+        error: function(e) {
+            console.error(e);
+        }
+    })
+    // }). 
+    // then(function(data) {
+    //     console.log('hello');
+    //     console.log(data);
+    // });  
+
+    // var html = testHTML();
+    // $("body").append(html);
+    
+});
+// ************************************************************************************************************* \\ 
+
 // ********************** On Click Button Function that scrapes 20 articles from NY Times uses GET ********************** \\
 $(document).on('click', '#btnScrape', function(){
     scrapeResults();
@@ -151,35 +184,21 @@ $(document).on('click', '#btnSavedArticles', function(){
 });
 // ************************************************************************************************************* \\
 
-// ********************** On Click Button Function that opens modal for notes *********************************** \\
-$(document).on('click', 'a.btn.btn-info.notes', function(){
-    alert('hello');
-    var html = testHTML();
-    $("body").append(html);
-    
+
+
+// ********************** On Click Button Function that hides Modal *********************************** \\
+$(document).on('click', 'button.bootbox-close-button.close', function(){
+    $('.modal').hide();
 });
-// ************************************************************************************************************* \\ 
+// ************************************************************************************************************* \\
 
 
 
 
-function testHTML(){
-    alert('willie');
-    var data = {
-        "note": [
-        "hello",
-        "hello2",
-        "hello3"
-        ],
-        "_id": "5b60d9327ea55041f0fad9a3",
-        "link": "test",
-        "title": "test",
-        "summary": "test",
-        "__v": 0
-        }
-    
+// ************************************************* Build Nots Modal for Article ************************************************************ \\
+function buildNotesModal(data,mongo_id){
     var html = `
-    <div class="bootbox modal fade show" data-mongoid="${data._id}" tabindex="-1" role="dialog" style="display: block;">
+    <div class="bootbox modal fade show" data-mongoid="${mongo_id}" tabindex="-1" role="dialog" style="display: block;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
@@ -213,4 +232,4 @@ function testHTML(){
     </div>`
     return html
 }
-
+// ******************************************************************************************************************************************** \\
