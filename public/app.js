@@ -126,7 +126,7 @@ $(document).on('click', '#saveArticle', function(){
             console.error(e);
         }
     });
-    
+
     $(this).closest("div.card").remove(); 
 });
 // *********************************** End POST save articles to MongoDB ********************************* \\ 
@@ -154,7 +154,9 @@ $(document).on('click', '#btnSavedArticles', function(){
 // ********************** On Click Button Function that opens modal for notes *********************************** \\
 $(document).on('click', 'a.btn.btn-info.notes', function(){
     alert('hello');
-    testHTML();
+    var html = testHTML();
+    $("body").append(html);
+    
 });
 // ************************************************************************************************************* \\ 
 
@@ -162,6 +164,7 @@ $(document).on('click', 'a.btn.btn-info.notes', function(){
 
 
 function testHTML(){
+    alert('willie');
     var data = {
         "note": [
         "hello",
@@ -209,6 +212,5 @@ function testHTML(){
         </div>
     </div>`
     return html
-    console.log(html);
 }
 
