@@ -70,7 +70,7 @@ app.get("/api/scrape", function(request, result) {
     console.log(error);
   });
 });
-// ********************** End Scrape NY Times ********************** \\
+// ************************* End Scrape NY Times ********************** \\
 
 // ********************** Get Articles Saved in DB********************** \\
 app.get("/api/articles", function(req, res) {
@@ -88,39 +88,23 @@ app.get("/api/articles", function(req, res) {
 // ********************** End Articles Saved in DB********************** \\
 
 
+// ********************** Save Articles to Database ********************** \\
 app.post("/api/save", function (request, result) {
 
-  console.log('link');
-  console.log(request.body.link);
-  console.log('title');
-  console.log(request.body.title);
-  console.log('summary');
-  console.log(request.body.summary);
-
-  
-  // db.article.create(request.body.inputArticle)
-  // .then(function(dbArticle) {
-  //   // If saved successfully, print the new Example document to the console
-  //   console.log(dbArticle);
-  // })
-  // .catch(function(err) {
-  //   // If an error occurs, log the error message
-  //   console.log(err.message);
-  // });
+  db.article.create(request.body)
+  .then(function(dbArticle) {
+    // If saved successfully, print the new Example document to the console
+    console.log(dbArticle);
+  })
+  .catch(function(error) {
+    // If an error occurs, log the error message
+    console.log(error.message);
+  });
 
   result.send(request.body);
 
 });
-
-// app.get("/api/extractsaved", function(request, result) {
-//   result.send('saved articles');
-//   db.article.find({}, function (error, document) {
-//     // docs.forEach
-//     console.log(document);
-//   });
-// });
-
-
+// ********************** End Save Articles to Database ********************** \\
 
 
 // ********************** Start the Server ********************** \\

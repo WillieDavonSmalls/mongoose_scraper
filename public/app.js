@@ -77,6 +77,38 @@ function buildSavedArticleCards(){
  // ********************** End Build Saved Articles HTML for Scrape NY Times ********************** \\
 
 
+ // *********************************** POST save articles to MongoDB ********************************* \\ 
+$(document).on('click', '#saveArticle', function(){
+    var inputArticle; 
+
+    var link = $('a.article-link').attr('href').trim();
+    var title = $(this).closest("h3").text().replace('Save Article','').trim();
+    var summary = $("div#articleSummary").text().trim();
+    
+    inputArticle = {
+        link: link,
+        title: title,
+        summary: summary,
+        note: []
+    };
+
+    jQuery.ajax({
+        type: 'POST',
+        url: '/api/save',
+        data: inputArticle,
+        dataType: 'json',
+        success: function() {
+            console.log('sending post request', inputArticle);
+            $(this).closest("div.card").remove(); 
+        },
+        error: function(e) {
+            console.error(e);
+        }
+    });
+});
+// *********************************** End POST save articles to MongoDB ********************************* \\ 
+
+
 // ********************** On Click Button Function that scrapes 20 articles from NY Times uses GET ********************** \\
 $(document).on('click', '#btnScrape', function(){
     scrapeResults();
@@ -104,37 +136,6 @@ $(document).on('click', 'a.btn.btn-info.notes', function(){
 
 
 
-//POST save articles to MongoDB
-$(document).on('click', '#saveArticle', function(){
-    var inputArticle; 
-
-    var link = $('a.article-link').attr('href').trim();
-    var title = $(this).closest("h3").text().replace('Save Article','').trim();
-    var summary = $("div#articleSummary").text().trim();
-    
-    inputArticle = {
-        link: link,
-        title: title,
-        summary: summary,
-        note: []
-    };
-
-    // console.log('here', JSON.stringify(inputArticle));
-
-    jQuery.ajax({
-        type: 'POST',
-        url: '/api/save',
-        data: inputArticle,
-        dataType: 'json',
-        success: function() {
-            console.log('sending post request', inputArticle);
-            $(this).closest("div.card").remove(); //works
-        },
-        error: function(e) {
-            console.error(e);
-        }
-    });
-});
 
 function testHTML(){
     var data = {
