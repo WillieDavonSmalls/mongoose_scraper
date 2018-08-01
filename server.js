@@ -175,3 +175,10 @@ app.listen(PORT, function(error) {
 // ********************** End test data  ******************** \\
 
 
+
+db.article.findOneAndUpdate({_id: '5b61a4aaadc0fb563cdeff68'}, {$set:{note:["Help","Me","Lord"]}}, {new: true}, function(error, document){
+  if(error){
+      console.log("Something wrong when updating data!");
+  }
+  console.log(document);
+});
