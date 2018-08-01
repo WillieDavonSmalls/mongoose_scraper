@@ -79,6 +79,13 @@ function buildSavedArticleCards(){
 
  // ************************************************* Build Notes Modal for Article ************************************************************ \\
 function buildNotesModal(data,mongo_id){
+
+    var numNotes;  
+
+    if (data.note != null){
+        numNotes = data.note.length;
+    }else{ numNotes = 0; }
+
     var html = `
     <div class="bootbox modal fade show" data-mongoid="${mongo_id}" tabindex="-1" role="dialog" style="display: block;">
         <div class="modal-dialog">
@@ -92,8 +99,8 @@ function buildNotesModal(data,mongo_id){
                             <hr>
                             <ul class="list-group note-container">`;
     
-                            if(data.note.length > 0){
-                                for(var i = 0; i < data.note.length; i++){
+                            if(numNotes > 0){
+                                for(var i = 0; i < numNotes; i++){
                                     html += `
                                     <li class="list-group-item note">${data.note[i]}<button class="btn btn-danger note-delete">x</button></li>`
                                 }
